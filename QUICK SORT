@@ -1,0 +1,64 @@
+class GfG {
+    public static Node quickSort(Node head) {
+        // Your code here
+        if(head==null || head.next==null)
+        {
+            return head;
+        }
+        
+        Node pivot=getTail(head);
+        Node[] partionedList=partition(head,pivot);
+        
+        Node leftSorted=quickSort(partionedList[0]);
+        Node rightSorted=quickSort(partionedList[2]);
+        return concatenate(leftSorted,partionedList[1],rightSorted);
+        
+    }
+    private static Node getTail(Node head)
+    {
+        while(head.next!=null)
+        {
+            head=head.next;
+        }
+        return head;
+    }
+    private static Node[] partition(Node head,Node pivot)
+    {
+        Node left=new Node(-1),middle=new Node(-1),right=new Node(-1);
+        Node leftTail=left,middleTail=middle,rightTail=right;
+        Node temp=head;
+        while(temp!=null)
+        {
+            if(temp.data<pivot.data)
+            {
+                leftTail.next=temp;
+                leftTail=leftTail.next;
+            }
+            else if(temp.data==pivot.data)
+            {
+                middleTail.next=temp;
+                middleTail=middleTail.next;
+            }
+            else
+            {
+                rightTail.next=temp;
+                rightTail=rightTail.next;
+            }
+            temp=temp.next;
+        }
+        leftTail.next=middleTail.next=rightTail.next=null;
+        return new Node[]{left.next,middle.next,right.next};
+    }
+    private static Node concatenate(Node left,Node middle,Node right){
+        Node dummy=new Node(-1);
+        Node tail=dummy;
+        tail.next=left;
+        while(tail.next!=null)
+        tail=tail.next;
+        tail.next=middle;
+        while(tail.next!=null)
+        tail=tail.next;
+        tail.next=right;
+        return dummy.next;
+    }
+}
