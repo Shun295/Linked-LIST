@@ -1,0 +1,27 @@
+class Solution {
+    Node divide(Node head) {
+        // code here
+         if (head == null || head.next == null) return head; 
+
+        Node evenHead = new Node(-1);  
+        Node oddHead = new Node(-1);   
+        Node evenTail = evenHead, oddTail = oddHead; 
+
+        Node curr = head;
+        while (curr != null) {
+            if (curr.data % 2 == 0) {  
+                evenTail.next = curr;
+                evenTail = evenTail.next;
+            } else {  
+                oddTail.next = curr;
+                oddTail = oddTail.next;
+            }
+            curr = curr.next;
+        }
+
+        evenTail.next = oddHead.next;  
+        oddTail.next = null; 
+
+        return evenHead.next;
+    }
+}
